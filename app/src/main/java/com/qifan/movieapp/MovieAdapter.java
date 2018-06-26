@@ -20,8 +20,8 @@ import java.util.List;
 public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
 
 
-    public MovieAdapter(@NonNull Context context, int resource, @NonNull List<Movie_Obj> objects) {
-        super(context, resource, objects);
+    public MovieAdapter(@NonNull Context context, List<Movie_Obj> objects) {
+        super(context, 0, objects);
         LogUtil.d("debugg","Adapter Constructer called");
     }
 

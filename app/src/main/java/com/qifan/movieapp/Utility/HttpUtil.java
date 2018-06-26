@@ -2,8 +2,13 @@ package com.qifan.movieapp.Utility;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.GridView;
 
 import com.qifan.movieapp.Beans.Movie_Obj;
+import com.qifan.movieapp.MovieAdapter;
+import com.qifan.movieapp.MyApplication;
+import com.qifan.movieapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,15 +23,7 @@ import java.util.Scanner;
 
 import static java.lang.Thread.sleep;
 
-public class HttpUtil extends AsyncTask<>{
-
-    public HttpUtil() {
-    }
-
-    @Override
-    protected Object doInBackground(Object[] objects) {
-        return null;
-    }
+public class HttpUtil{
 
     public static void sendHttpRequest(final URL url, final HttpCallbackListener listener){
         new Thread(new Runnable() {

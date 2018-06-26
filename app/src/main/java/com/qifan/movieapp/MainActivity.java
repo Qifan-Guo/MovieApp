@@ -1,6 +1,7 @@
 package com.qifan.movieapp;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private GridView gridView;
     private ArrayList<Movie_Obj> list = new ArrayList<>();
     private main_fragment main_fragment;
+    private android.support.v4.app.FragmentTransaction fragmentTransaction;
 
 
     @Override
@@ -45,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         main_fragment=new main_fragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.mainFragment,main_fragment,"").commit();
+       fragmentTransaction =getSupportFragmentManager().beginTransaction();
+       fragmentTransaction.replace(R.id.mainFragment,main_fragment,"").commit();
 
 
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         URL url=null;
         if(sortBy==Info_MovieDB.popularity_desc){
             url=Info_MovieDB.buildURL(Info_MovieDB.popularity_desc);
-            LogUtil.d("debugg","URL formed"+url.toString());
+
         }else
             if(sortBy==Info_MovieDB.voter_avg_desc){
             url=Info_MovieDB.buildURL(Info_MovieDB.voter_avg_desc);
@@ -74,21 +76,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.gridView);
-        Bundle bundle=new Bundle();
         String sortBy="";
+        Bundle bundle=new Bundle();
+        android.support.v4.app.FragmentTransaction fragmentTransaction1=getSupportFragmentManager().beginTransaction();
+
+
+
         switch (id){
             case R.id.mostPopularSort:
                 sortBy="popularity.desc";
                 bundle.putString("sortBy",sortBy);
-                fragment.setArguments(bundle);
+                fragmentTransaction1.detach(main_fragment);
+                main_fragment.setArguments(bundle);
+                fragmentTransaction1.attach(main_fragment);
+                fragmentTransaction1.commit();
+
+
 
                 Log.d("debugg","popularity option selected");
                 break;
             case R.id.topRatedSort:
                 sortBy="vote_average.desc";
                 bundle.putString("sortBy",sortBy);
-                fragment.setArguments(bundle);
+                fragmentTransaction1.detach(main_fragment);
+                main_fragment.setArguments(bundle);
+                fragmentTransaction1.attach(main_fragment);
+                fragmentTransaction1.commit();
 
                 Log.d("debugg","TopRate option selected");
                break;

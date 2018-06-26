@@ -69,8 +69,13 @@ public class HttpUtil{
                 String popularity=jsonObject.getString("popularity");
                 String img_path=jsonObject.getString("poster_path");
                 String vote_average=jsonObject.getString("vote_average");
-                list.add(new Movie_Obj(img_path,popularity,vote_average));
+                String title=jsonObject.getString("original_title");
+                if(img_path!="null"){
+                    list.add(new Movie_Obj(img_path,popularity,vote_average,title));
+                }
+
             }
+
         }
         catch (Exception e){
             e.printStackTrace();

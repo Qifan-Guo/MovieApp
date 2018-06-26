@@ -2,6 +2,7 @@ package com.qifan.movieapp.Fragment;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.qifan.movieapp.Beans.Movie_Obj;
 import com.qifan.movieapp.MainActivity;
 import com.qifan.movieapp.MovieAdapter;
+import com.qifan.movieapp.MyApplication;
 import com.qifan.movieapp.R;
 import com.qifan.movieapp.Utility.HttpUtil;
 import com.qifan.movieapp.Utility.LogUtil;
@@ -33,8 +35,8 @@ import java.util.Scanner;
  */
 public class main_fragment extends Fragment {
     private GridView gridView;
-    private static Activity activity1;
-
+    private String sortBy;
+    Context context;
 
     public main_fragment() {
         // Required empty public constructor
@@ -51,31 +53,54 @@ public class main_fragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView=inflater.inflate(R.layout.fragment_main_fragment, container, false);
         gridView=rootView.findViewById(R.id.gridView);
-        activity1=getActivity();
-
-        new myAsyncTask(getActivity(),URLsortBy("vote_average.desc"));
+        Bundle bundle=getArguments();
+        context=getContext();
+        if(bundle!=null){
+        sortBy=bundle.getString("sortBy");
+            new myAsyncTask(URLsortBy(sortBy)).execute();
+        }else {
+            new myAsyncTask(URLsortBy("vote_average.desc")).execute();}
         // Inflate the layout for this fragment
+        LogUtil.d("time","onCreate");
         return rootView;
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LogUtil.d("time","onStop");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.d("time","onResume");
     }
 
     @Override
     public void onStart() {
+        LogUtil.d("time","onStart");
         super.onStart();
+
     }
+
+
 
     public URL URLsortBy(String sortBy){
         URL url= MainActivity.sortURL(sortBy);
+        LogUtil.d("URL","URL formed"+url.toString());
         return url;
     }
 
     class myAsyncTask extends AsyncTask<Void,Integer,String>{
 
-        private final Activity activity;
+
         private final URL url;
         ArrayList<Movie_Obj> list= new ArrayList<>();
 
-        public myAsyncTask(Activity activity, URL url){
-            this.activity=activity;
+        public myAsyncTask( URL url){
             this.url=url;
         }
         @Override
@@ -110,7 +135,15 @@ public class main_fragment extends Fragment {
         protected void onPostExecute(String data) {
             LogUtil.d("debugg","onPostExecute Running");
             list=HttpUtil.parseJSONwithJSONObject(data);
-            MovieAdapter movieAdapter=new MovieAdapter(getContext(),list);
+            if(sortBy=="popularity.desc"){
+                MovieAdapter.Sortby=1;
+                //1 for popularity
+            }
+            else {
+                MovieAdapter.Sortby=0;
+                //0 for top rate
+                }
+            MovieAdapter movieAdapter=new MovieAdapter(context,list);
             gridView.setAdapter(movieAdapter);
 
         }

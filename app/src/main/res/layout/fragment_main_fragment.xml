@@ -1,4 +1,4 @@
-<GridView android:background="@android:color/holo_blue_bright"
+<GridView
     android:id="@+id/gridView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

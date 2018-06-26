@@ -1,6 +1,7 @@
 package com.qifan.movieapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import com.qifan.movieapp.Beans.Movie_Obj;
 import com.qifan.movieapp.Utility.LogUtil;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
@@ -23,10 +23,12 @@ public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
     //0 for top rate .
     //see getView method for details
     public static int Sortby=1;
+    private final Context context;
 
 
     public MovieAdapter(@NonNull Context context, List<Movie_Obj> objects) {
         super(context, R.layout.movie_item, objects);
+        this.context=context;
         LogUtil.d("debugg","Adapter Constructer called");
     }
 
@@ -36,7 +38,7 @@ public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
 
         LogUtil.d("debugg","GetView Called");
 
-        Movie_Obj movie_obj=getItem(position);
+        final Movie_Obj movie_obj=getItem(position);
         if(convertView==null){
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.movie_item,parent,false);
 
@@ -53,8 +55,21 @@ public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
             detail.setText(movie_obj.getTopRate());
         }
         Picasso.get()
-                .load(Info_MovieDB.base_img_url+Info_MovieDB.img_size+movie_obj.getPosterURL())
+                .load(Info_MovieDB.base_img_url+Info_MovieDB.small_img_size +movie_obj.getPosterURL())
                 .into(imageView);
+        //add onclick Listener to Image View
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getContext(),movie_obj.getTitle(),Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(context,Movie_Details.class);
+                        intent.putExtra("Movie_obj",movie_obj);
+                        context.startActivity(intent);
+            }
+        });
+
+
+
         return convertView;
     }
 

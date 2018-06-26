@@ -1,27 +1,20 @@
 package com.qifan.movieapp.Utility;
 
-import android.os.AsyncTask;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.GridView;
+
 
 import com.qifan.movieapp.Beans.Movie_Obj;
-import com.qifan.movieapp.MovieAdapter;
-import com.qifan.movieapp.MyApplication;
-import com.qifan.movieapp.R;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static java.lang.Thread.sleep;
 
 public class HttpUtil{
 
@@ -70,8 +63,11 @@ public class HttpUtil{
                 String img_path=jsonObject.getString("poster_path");
                 String vote_average=jsonObject.getString("vote_average");
                 String title=jsonObject.getString("original_title");
+                String language=jsonObject.getString("original_language");
+                String overview=jsonObject.getString("overview");
+                String date=jsonObject.getString("release_date");
                 if(img_path!="null"){
-                    list.add(new Movie_Obj(img_path,popularity,vote_average,title));
+                    list.add(new Movie_Obj(img_path,popularity,vote_average,title,language,overview,date));
                 }
 
             }

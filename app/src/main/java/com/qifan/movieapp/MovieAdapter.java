@@ -11,13 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.qifan.movieapp.Beans.Movie_Obj;
+import com.qifan.movieapp.Beans.MovieObj;
 import com.qifan.movieapp.Utility.LogUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
+public class MovieAdapter extends ArrayAdapter <MovieObj>{
 
     //This will decide which TextView to display, 1 for popularity.
     //0 for top rate .
@@ -26,7 +26,7 @@ public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
     private final Context context;
 
 
-    public MovieAdapter(@NonNull Context context, List<Movie_Obj> objects) {
+    public MovieAdapter(@NonNull Context context, List<MovieObj> objects) {
         super(context, R.layout.movie_item, objects);
         this.context=context;
         LogUtil.d("debugg","Adapter Constructer called");
@@ -38,7 +38,7 @@ public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
 
         LogUtil.d("debugg","GetView Called");
 
-        final Movie_Obj movie_obj=getItem(position);
+        final MovieObj movie_obj=getItem(position);
         if(convertView==null){
             convertView= LayoutInflater.from(getContext()).inflate(R.layout.movie_item,parent,false);
 
@@ -55,14 +55,14 @@ public class MovieAdapter extends ArrayAdapter <Movie_Obj>{
             detail.setText(movie_obj.getTopRate());
         }
         Picasso.get()
-                .load(Info_MovieDB.base_img_url+Info_MovieDB.small_img_size +movie_obj.getPosterURL())
+                .load(MovieInfo.base_img_url+ MovieInfo.small_img_size +movie_obj.getPosterURL())
                 .into(imageView);
         //add onclick Listener to Image View
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getContext(),movie_obj.getTitle(),Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(context,Movie_Details.class);
+                        Intent intent=new Intent(context,MovieDetails.class);
                         intent.putExtra("Movie_obj",movie_obj);
                         context.startActivity(intent);
             }

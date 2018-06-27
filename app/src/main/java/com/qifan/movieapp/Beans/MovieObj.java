@@ -2,7 +2,7 @@ package com.qifan.movieapp.Beans;
 
 import java.io.Serializable;
 
-public class Movie_Obj implements Serializable{
+public class MovieObj implements Serializable{
 
 
 
@@ -14,8 +14,8 @@ public class Movie_Obj implements Serializable{
     private String topRate;
     private String title;
 
-public Movie_Obj(String poster,String popularity,String topRate,
-                 String title,String language,String overview,String release_date){
+public MovieObj(String poster, String popularity, String topRate,
+                String title, String language, String overview, String release_date){
     this.language=language;
     this.overview=overview;
     this.release_date =release_date;

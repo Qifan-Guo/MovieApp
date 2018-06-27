@@ -1,7 +1,6 @@
 package com.qifan.movieapp.Fragment;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,19 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.qifan.movieapp.Beans.Movie_Obj;
+import com.qifan.movieapp.Beans.MovieObj;
 import com.qifan.movieapp.MainActivity;
 import com.qifan.movieapp.MovieAdapter;
-import com.qifan.movieapp.MyApplication;
+import com.qifan.movieapp.MovieInfo;
 import com.qifan.movieapp.R;
 import com.qifan.movieapp.Utility.HttpUtil;
 import com.qifan.movieapp.Utility.LogUtil;
 
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,12 +29,12 @@ import java.util.Scanner;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class main_fragment extends Fragment {
+public class MainFragment extends Fragment {
     private GridView gridView;
     private String sortBy;
     Context context;
 
-    public main_fragment() {
+    public MainFragment() {
         // Required empty public constructor
     }
 
@@ -59,7 +55,7 @@ public class main_fragment extends Fragment {
         sortBy=bundle.getString("sortBy");
             new myAsyncTask(URLsortBy(sortBy)).execute();
         }else {
-            new myAsyncTask(URLsortBy("vote_average.desc")).execute();}
+            new myAsyncTask(URLsortBy("popular")).execute();}
         // Inflate the layout for this fragment
         LogUtil.d("time","onCreate");
         return rootView;
@@ -97,11 +93,12 @@ public class main_fragment extends Fragment {
     class myAsyncTask extends AsyncTask<Void,Integer,String>{
 
 
-        private final URL url;
-        ArrayList<Movie_Obj> list= new ArrayList<>();
+        private URL url=null;
+        ArrayList<MovieObj> list= new ArrayList<>();
 
-        public myAsyncTask( URL url){
-            this.url=url;
+        public myAsyncTask( URL url1){
+            if(url1!=null){
+            this.url=url1;}
         }
         @Override
         protected String doInBackground(Void...voids) {
@@ -134,17 +131,18 @@ public class main_fragment extends Fragment {
         @Override
         protected void onPostExecute(String data) {
             LogUtil.d("debugg","onPostExecute Running");
-            list=HttpUtil.parseJSONwithJSONObject(data);
-            if(sortBy=="popularity.desc"){
-                MovieAdapter.Sortby=1;
-                //1 for popularity
-            }
-            else {
-                MovieAdapter.Sortby=0;
-                //0 for top rate
+            if(data!=null) {
+                list = HttpUtil.parseJSONwithJSONObject(data);
+                if (sortBy == "popular") {
+                    MovieAdapter.Sortby = 1;
+                    //1 for popularity
+                } else {
+                    MovieAdapter.Sortby = 0;
+                    //0 for top rate
                 }
-            MovieAdapter movieAdapter=new MovieAdapter(context,list);
-            gridView.setAdapter(movieAdapter);
+                MovieAdapter movieAdapter = new MovieAdapter(context, list);
+                gridView.setAdapter(movieAdapter);
+            }
 
         }
     }

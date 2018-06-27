@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Movie_Details">
+    tools:context=".MovieDetails">
     <TextView
         android:textAlignment="center"
         android:textSize="30sp"

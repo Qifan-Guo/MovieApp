@@ -36,9 +36,6 @@ public class HttpUtil{
                     }
                     } catch (Exception e){
                     e.printStackTrace();
-                    if(listener!=null){
-                    listener.onError(e);
-                }
                 }
                 finally {
                     if (httpURLConnection!=null){
@@ -53,29 +50,30 @@ public class HttpUtil{
 
 
     public static ArrayList<Movie_Obj> parseJSONwithJSONObject(String jsonData){
-            ArrayList<Movie_Obj> list=new ArrayList<>();
-        try{
-            JSONObject jsonObject1=new JSONObject(jsonData);
-            JSONArray jsonArray=jsonObject1.getJSONArray("results");
-            for(int i=0; i<jsonArray.length();i++){
-                JSONObject jsonObject=jsonArray.getJSONObject(i);
-                String popularity=jsonObject.getString("popularity");
-                String img_path=jsonObject.getString("poster_path");
-                String vote_average=jsonObject.getString("vote_average");
-                String title=jsonObject.getString("original_title");
-                String language=jsonObject.getString("original_language");
-                String overview=jsonObject.getString("overview");
-                String date=jsonObject.getString("release_date");
-                if(img_path!="null"){
-                    list.add(new Movie_Obj(img_path,popularity,vote_average,title,language,overview,date));
+        ArrayList<Movie_Obj> list = new ArrayList<>();
+        if(jsonData!=null) {
+            try {
+                JSONObject jsonObject1 = new JSONObject(jsonData);
+                JSONArray jsonArray = jsonObject1.getJSONArray("results");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String popularity = jsonObject.getString("popularity");
+                    String img_path = jsonObject.getString("poster_path");
+                    String vote_average = jsonObject.getString("vote_average");
+                    String title = jsonObject.getString("original_title");
+                    String language = jsonObject.getString("original_language");
+                    String overview = jsonObject.getString("overview");
+                    String date = jsonObject.getString("release_date");
+                    if (img_path != "null") {
+                        list.add(new Movie_Obj(img_path, popularity, vote_average, title, language, overview, date));
+                    }
+
                 }
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        }else{ LogUtil.d("debugg","Null JsonData");}
         return list;
 
     }

@@ -1,5 +1,5 @@
 
-Please go to app/src/main/java/com/qifan/movieapp.java to Enter Your own API_Key From Moive API.
+Please go to app/src/main/java/com/qifan/movieapp/MovieInfo.java to Enter Your own API_Key From Moive API.
 
 
 

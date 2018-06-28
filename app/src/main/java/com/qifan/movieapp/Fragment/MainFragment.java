@@ -56,7 +56,6 @@ public class MainFragment extends Fragment {
             new myAsyncTask(URLsortBy(sortBy)).execute();
         }else {
             new myAsyncTask(URLsortBy("popular")).execute();}
-        // Inflate the layout for this fragment
         LogUtil.d("time","onCreate");
         return rootView;
 

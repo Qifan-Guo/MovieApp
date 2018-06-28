@@ -1,8 +1,11 @@
 package com.qifan.movieapp.Beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class MovieObj implements Serializable{
+public class MovieObj implements Parcelable {
 
 
 
@@ -24,6 +27,28 @@ public MovieObj(String poster, String popularity, String topRate,
     this.topRate=topRate;
     this.title=title;
 }
+
+    protected MovieObj(Parcel in) {
+        language = in.readString();
+        overview = in.readString();
+        release_date = in.readString();
+        posterURL = in.readString();
+        popularity = in.readString();
+        topRate = in.readString();
+        title = in.readString();
+    }
+
+    public static final Creator<MovieObj> CREATOR = new Creator<MovieObj>() {
+        @Override
+        public MovieObj createFromParcel(Parcel in) {
+            return new MovieObj(in);
+        }
+
+        @Override
+        public MovieObj[] newArray(int size) {
+            return new MovieObj[size];
+        }
+    };
 
     public String getLanguage() {
         return language;
@@ -54,5 +79,19 @@ public MovieObj(String poster, String popularity, String topRate,
     public String getTitle() { return title; }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(language);
+        dest.writeString(overview);
+        dest.writeString(release_date);
+        dest.writeString(posterURL);
+        dest.writeString(popularity);
+        dest.writeString(topRate);
+        dest.writeString(title);
+    }
 }

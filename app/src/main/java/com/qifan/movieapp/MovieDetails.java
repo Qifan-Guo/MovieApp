@@ -22,17 +22,13 @@ public class MovieDetails extends AppCompatActivity {
         overview=findViewById(R.id.overview);
         detail_info=findViewById(R.id.detail_Info);
         imageView=findViewById(R.id.detail_poster);
-        MovieObj movie_obj=(MovieObj)getIntent().getSerializableExtra("Movie_obj");
+        MovieObj movie_obj=(MovieObj)getIntent().getParcelableExtra("Movie_obj");
 
         //Formatting section
         String overview_format="OVERVIEW: \n"+movie_obj.getOverview();
         String detail_info_format=movie_obj.getTopRate()+"\n\n\n"
                 +movie_obj.getPopularity()+"\n\n\n"+"Release Date: "
                 +movie_obj.getRelease_date()+"\n\n\n"+"Language: "+movie_obj.getLanguage();
-
-
-
-
 
         title.setText(movie_obj.getTitle());
         overview.setText(overview_format);

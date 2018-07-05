@@ -17,7 +17,7 @@ public class MovieDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie__details);
+        setContentView(R.layout.movie_detail_view);
         title=findViewById(R.id.Movie_Title);
         overview=findViewById(R.id.overview);
         detail_info=findViewById(R.id.detail_Info);
@@ -26,9 +26,9 @@ public class MovieDetails extends AppCompatActivity {
 
         //Formatting section
         String overview_format="OVERVIEW: \n"+movie_obj.getOverview();
-        String detail_info_format=movie_obj.getTopRate()+"\n\n\n"
-                +movie_obj.getPopularity()+"\n\n\n"+"Release Date: "
-                +movie_obj.getRelease_date()+"\n\n\n"+"Language: "+movie_obj.getLanguage();
+        String detail_info_format=movie_obj.getTopRate()+"\n\n"
+                +movie_obj.getPopularity()+"\n\n"+"Release Date: "
+                +movie_obj.getRelease_date()+"\n\n"+"Language: "+movie_obj.getLanguage();
 
         title.setText(movie_obj.getTitle());
         overview.setText(overview_format);

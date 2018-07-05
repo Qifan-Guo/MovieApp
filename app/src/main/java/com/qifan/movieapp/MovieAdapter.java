@@ -93,6 +93,7 @@ public class MovieAdapter extends ArrayAdapter <MovieObj>{
             @Override
             public void onClick(View v) {
                 if (viewHolder.isStarEmpty==true){
+
                     viewHolder.emptyStar.setImageResource(R.drawable.gold_star);
                     viewHolder.isStarEmpty=false;
                 }else if(viewHolder.isStarEmpty=false){

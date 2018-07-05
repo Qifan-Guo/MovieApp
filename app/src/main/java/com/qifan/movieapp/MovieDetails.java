@@ -22,7 +22,7 @@ public class MovieDetails extends AppCompatActivity {
         overview=findViewById(R.id.overview);
         detail_info=findViewById(R.id.detail_Info);
         imageView=findViewById(R.id.detail_poster);
-        MovieObj movie_obj=(MovieObj)getIntent().getParcelableExtra("Movie_obj");
+        MovieObj movie_obj= getIntent().getParcelableExtra("Movie_obj");
 
         //Formatting section
         String overview_format="OVERVIEW: \n"+movie_obj.getOverview();

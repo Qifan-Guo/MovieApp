@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,9 +88,11 @@ public class MainFragment extends Fragment {
 
     public URL URLsortBy(String sortBy){
         URL url= MainActivity.sortURL(sortBy);
-        LogUtil.d("URL","URL formed"+url.toString());
+        LogUtil.d("URL","URL formed "+url.toString());
         return url;
     }
+
+
 
     class myAsyncTask extends AsyncTask<Void,Integer,String>{
 

@@ -8,25 +8,29 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 //this is the interface that would manipulate the database
 @Dao
 public interface MovieDao {
 
-        @Query("SELECT * FROM movie ORDER BY priortiy")
+        @Query("SELECT * FROM movie ORDER BY title")
         LiveData<List<MovieEntry>> loadAllTasks();
 
-        @Insert
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insertTask(MovieEntry taskEntry);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateTask(MovieEntry movieEntry);
 
-        @Delete
-        void deleteTask(MovieEntry movieEntry);
+        @Query("DELETE FROM movie where title= :title")
+        void deleteTask(String title);
 
-        @Query("SELECT * FROM movie WHERE id = :id")
-        LiveData<MovieEntry> loadMovieById(int id);
+        @Query("SELECT * FROM movie WHERE id = :title")
+        MovieEntry loadMovieByTitle(int title);
+
+        @Query("DELETE FROM movie")
+        void deleteALL();
     }
 
 

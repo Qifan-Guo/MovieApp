@@ -2,6 +2,7 @@ package com.qifan.movieapp.Beans;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
@@ -40,7 +41,7 @@ public MovieObj(String poster, String popularity, String topRate,
 
     public static final Creator<MovieObj> CREATOR = new Creator<MovieObj>() {
         @Override
-        public MovieObj createFromParcel(Parcel in) {
+        public MovieObj createFromParcel(@NonNull Parcel in) {
             return new MovieObj(in);
         }
 
@@ -66,11 +67,13 @@ public MovieObj(String poster, String popularity, String topRate,
     }
 
 
+    @NonNull
     public String getTopRate() {
     Double double_topRate = Double.parseDouble(topRate);
         return
                "Top Rate: "+ String.format("%.2f",double_topRate);
     }
+    @NonNull
     public String getPopularity() {
     Double double_popularity=Double.parseDouble(popularity);
         return
@@ -85,7 +88,7 @@ public MovieObj(String poster, String popularity, String topRate,
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(language);
         dest.writeString(overview);
         dest.writeString(release_date);

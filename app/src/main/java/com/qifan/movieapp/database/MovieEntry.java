@@ -3,10 +3,12 @@ package com.qifan.movieapp.database;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 @Entity(tableName = "movie")
 public class MovieEntry {
-
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title;
     private String posterURL;
     private String topRate;
@@ -15,11 +17,11 @@ public class MovieEntry {
     private Boolean favorite;
     private String releaseDate;
     private String overview;
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    private String sortBy;
+
 //This constructor writes to the database, so it does not know what the id would be
     @Ignore
-    public MovieEntry(String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview) {
+    public MovieEntry(String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview,String sortBy) {
         this.title = title;
         this.posterURL = posterURL;
         this.topRate = topRate;
@@ -28,9 +30,11 @@ public class MovieEntry {
         this.favorite = favorite;
         this.releaseDate = releaseDate;
         this.overview = overview;
+        this.sortBy=sortBy;
     }
 // when read from the database then id would be required
-    public MovieEntry(String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview, int id) {
+    public MovieEntry(int id,String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview,String sortBy) {
+        this.id = id;
         this.title = title;
         this.posterURL = posterURL;
         this.topRate = topRate;
@@ -39,7 +43,8 @@ public class MovieEntry {
         this.favorite = favorite;
         this.releaseDate = releaseDate;
         this.overview = overview;
-        this.id = id;
+        this.sortBy=sortBy;
+
     }
 
     public void setTitle(String title) {
@@ -113,4 +118,25 @@ public class MovieEntry {
     public String getOverview() {
         return overview;
     }
+
+    public String getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
+    @NonNull
+    public String getTopRate1() {
+        Double double_topRate = Double.parseDouble(topRate);
+        return
+                "Top Rate: "+ String.format("%.2f",double_topRate);
+    }
+    @NonNull
+    public String getPopularity1() {
+        Double double_popularity=Double.parseDouble(popularity);
+        return
+                "Popularity: "+ String.format("%.0f",double_popularity);
+    }
+
 }

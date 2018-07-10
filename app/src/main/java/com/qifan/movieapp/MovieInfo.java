@@ -1,6 +1,7 @@
 package com.qifan.movieapp;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -22,6 +23,7 @@ public class MovieInfo {
     final static String large_img_size="/w780";
 
 
+    @Nullable
     public static URL buildURL(String sort_param){
         Uri builtUri=Uri.parse(websiteAdress+sort_param).buildUpon()
                 .appendQueryParameter(API_PARAM,API_Key).build();

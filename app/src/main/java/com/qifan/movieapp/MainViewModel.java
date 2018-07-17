@@ -12,23 +12,23 @@ import com.qifan.movieapp.database.MovieEntry;
 
 import java.util.List;
 
-public class MainViewModel extends AndroidViewModel
-{
-    private final String LOG_TAG=MainViewModel.this.getClass().getSimpleName();
+public class MainViewModel extends AndroidViewModel {
+    private final String LOG_TAG = MainViewModel.this.getClass().getSimpleName();
     LiveData<List<MovieEntry>> mTasks;
+
     public MainViewModel(@NonNull Application application) {
         super(application);
-        MovieDatabase movieDatabase=MovieDatabase.getInstance(this.getApplication());
-        mTasks= movieDatabase.movieDao().loadAllTasks();
+        MovieDatabase movieDatabase = MovieDatabase.getInstance(this.getApplication());
+        mTasks = movieDatabase.movieDao().loadAllTasks();
     }
 
     public LiveData<List<MovieEntry>> getmTasks() {
 
-        if(mTasks!=null){
-            LogUtil.d(LOG_TAG,"mTASK is Not Null");
+        if (mTasks != null) {
+            LogUtil.d(LOG_TAG, "mTASK is Not Null");
             return mTasks;
-            }else{
-            LogUtil.d(LOG_TAG,"mTASK is Null");
+        } else {
+            LogUtil.d(LOG_TAG, "mTASK is Null");
             return null;
         }
 

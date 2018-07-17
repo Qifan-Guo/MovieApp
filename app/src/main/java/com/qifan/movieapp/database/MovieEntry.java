@@ -18,10 +18,11 @@ public class MovieEntry {
     private String releaseDate;
     private String overview;
     private String sortBy;
+    private int movieID;
 
-//This constructor writes to the database, so it does not know what the id would be
+    //This constructor writes to the database, so it does not know what the id would be
     @Ignore
-    public MovieEntry(String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview,String sortBy) {
+    public MovieEntry(String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview, String sortBy,int movieID) {
         this.title = title;
         this.posterURL = posterURL;
         this.topRate = topRate;
@@ -30,10 +31,12 @@ public class MovieEntry {
         this.favorite = favorite;
         this.releaseDate = releaseDate;
         this.overview = overview;
-        this.sortBy=sortBy;
+        this.sortBy = sortBy;
+        this.movieID =movieID;
     }
-// when read from the database then id would be required
-    public MovieEntry(int id,String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview,String sortBy) {
+
+    // when read from the database then id would be required
+    public MovieEntry(int id, String title, String posterURL, String topRate, String popularity, String language, Boolean favorite, String releaseDate, String overview, String sortBy,int movieID) {
         this.id = id;
         this.title = title;
         this.posterURL = posterURL;
@@ -43,7 +46,8 @@ public class MovieEntry {
         this.favorite = favorite;
         this.releaseDate = releaseDate;
         this.overview = overview;
-        this.sortBy=sortBy;
+        this.sortBy = sortBy;
+        this.movieID =movieID;
 
     }
 
@@ -126,17 +130,26 @@ public class MovieEntry {
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
     }
+    public int getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(int movieID) {
+        this.movieID = movieID;
+    }
+
     @NonNull
     public String getTopRate1() {
         Double double_topRate = Double.parseDouble(topRate);
         return
-                "Top Rate: "+ String.format("%.2f",double_topRate);
+                "Top Rate: " + String.format("%.2f", double_topRate);
     }
+
     @NonNull
     public String getPopularity1() {
-        Double double_popularity=Double.parseDouble(popularity);
+        Double double_popularity = Double.parseDouble(popularity);
         return
-                "Popularity: "+ String.format("%.0f",double_popularity);
+                "Popularity: " + String.format("%.0f", double_popularity);
     }
 
 }

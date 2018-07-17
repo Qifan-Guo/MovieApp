@@ -13,7 +13,7 @@ public class MovieInfo {
     final static String API_Key = "b410f22d2ca5650b2df2b667b44c15e8";
 
 
-    final static String websiteAdress = "https://api.themoviedb.org/3/movie/";
+    final static String BaseWebAdress = "https://api.themoviedb.org/3/movie/";
     final static String API_PARAM="api_key";
     final static String title="original_title";
     final static String popularity_desc="popular";
@@ -25,7 +25,7 @@ public class MovieInfo {
 
     @Nullable
     public static URL buildURL(String sort_param){
-        Uri builtUri=Uri.parse(websiteAdress+sort_param).buildUpon()
+        Uri builtUri=Uri.parse(BaseWebAdress+sort_param).buildUpon()
                 .appendQueryParameter(API_PARAM,API_Key).build();
 
         URL url=null;
@@ -35,5 +35,27 @@ public class MovieInfo {
             e.printStackTrace();
         }
         return url;
+
+    }
+
+    public static String buildBaseWebAddress(int movieID, String queue){
+        String ID=String.valueOf(movieID);
+        String requestWebAdress=BaseWebAdress+ID+"/"+queue;
+        return requestWebAdress;
+
+    }
+    @Nullable
+    public static URL buildURL1(String requestWebAdress){
+        Uri builtUri=Uri.parse(requestWebAdress).buildUpon()
+                .appendQueryParameter(API_PARAM,API_Key).build();
+
+        URL url=null;
+        try{
+            url=new URL(builtUri.toString());
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        return url;
+
     }
 }

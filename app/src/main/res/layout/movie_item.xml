@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
-
+        android:contentDescription="MoviePoster"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
@@ -40,6 +40,7 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:contentDescription="star"
             android:id="@+id/empty_star"
             android:layout_width="72dp"
             android:layout_height="36dp"

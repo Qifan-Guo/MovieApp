@@ -8,7 +8,7 @@ import android.nfc.Tag;
 import android.support.annotation.NonNull;
 
 import com.qifan.movieapp.Utility.LogUtil;
-@Database(entities = {MovieEntry.class}, version = 2, exportSchema = false)
+@Database(entities = {MovieEntry.class}, version = 3, exportSchema = false)
 public abstract class MovieDatabase extends RoomDatabase {
     private static final String LOG_TAG = MovieDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();

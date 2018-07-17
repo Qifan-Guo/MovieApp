@@ -23,7 +23,7 @@ import java.util.List;
 
 import static com.qifan.movieapp.MyApplication.getContext;
 
-public class MovieAdapter extends BaseAdapter {
+public class FavoriteMovieAdapter extends BaseAdapter {
 
     //This will decide which TextView to display, 1 for POPULARITY.
     //0 for top rate .
@@ -36,12 +36,9 @@ public class MovieAdapter extends BaseAdapter {
     private MovieDatabase movieDatabase;
     @Nullable
     viewHolder viewHolder;
-    private final String LOG_TAG = MovieAdapter.this.getClass().getSimpleName();
+    private final String LOG_TAG = FavoriteMovieAdapter.this.getClass().getSimpleName();
 
-    public MovieAdapter(@NonNull Context context) {
-        if (HttpUtil.list != null) {
-            this.list = HttpUtil.list;
-        }
+    public FavoriteMovieAdapter(@NonNull Context context) {
         movieDatabase = MovieDatabase.getInstance(MyApplication.getContext());
         this.context = context;
         LogUtil.d(LOG_TAG, "First Adapter Constructer called");
@@ -65,14 +62,8 @@ public class MovieAdapter extends BaseAdapter {
 
     }
 
-    public void setList(List<MovieEntry> favoriteMovieList){
-        this.list=favoriteMovieList;
-        notifyDataSetChanged();
-
-    }
     public void setTask(List<MovieEntry> task) {
-        HttpUtil.list=task;
-        this.list=HttpUtil.list;
+        this.list=task;
         notifyDataSetChanged();
 
     }
@@ -148,7 +139,7 @@ public class MovieAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context, MovieDetails.class);
                 intent.putExtra("Entry_Position", position);
-                intent.putExtra("Favorite",false);
+                intent.putExtra("Favorite",true);
                 String position1 = String.valueOf(position);
                 LogUtil.d("Position", position1);
                 context.startActivity(intent);
@@ -172,7 +163,7 @@ public class MovieAdapter extends BaseAdapter {
                     LogUtil.d(LOG_TAG, "CHANGE TO EMPTY STAR");
                     viewHolder.emptyStar.setImageResource(R.drawable.empty_star);
                     movie_obj.setFavorite(false);
-                   notifyDataSetChanged();
+                    notifyDataSetChanged();
                     AppExecutors.getInstance().networkIO().execute(removeToDatabase(movie_obj));
                 }
             }

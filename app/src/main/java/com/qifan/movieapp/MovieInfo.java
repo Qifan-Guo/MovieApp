@@ -10,7 +10,7 @@ import java.net.URL;
 public class MovieInfo {
 
     //Here Enter your API Key
-    final static String API_Key = "b410f22d2ca5650b2df2b667b44c15e8";
+    final static String API_Key = "ENTER YOUR API KEY HERE";
 
 
     final static String BaseWebAdress = "https://api.themoviedb.org/3/movie/";

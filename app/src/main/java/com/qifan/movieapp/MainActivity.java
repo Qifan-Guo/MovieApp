@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public final String FAVORITE = "favorite";
     MovieDatabase movieDatabase;
     FragmentManager fragmentManager;
-    private static Boolean isInMainFragment = true;
+    private static Boolean isInMainFragment = false;
 
 
     @Override
@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity {
         MainFragment = new MainFragment();
         favoriteMovieView = new FavoriteMovieView();
         fragmentManager = getSupportFragmentManager();
-        SetUpFragment(MainFragment);
+        if(savedInstanceState==null){
+            SetUpFragment(favoriteMovieView);
+        }
+
         movieDatabase = MovieDatabase.getInstance(this.getApplicationContext());
 
 

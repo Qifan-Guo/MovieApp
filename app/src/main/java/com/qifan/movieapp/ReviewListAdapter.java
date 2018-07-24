@@ -37,7 +37,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull ReviewHolder holder, int position) {
-        MovieReviewsPOJO movieReviewsPOJO = reviewsPOJOList.get(position);
+        MovieReviewsPOJO movieReviewsPOJO = reviewsPOJOList.get(holder.getAdapterPosition());
         holder.author.setText(movieReviewsPOJO.getAuthor()+":");
         holder.review.setText(movieReviewsPOJO.getReview()+"\n");
 

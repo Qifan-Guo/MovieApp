@@ -4,6 +4,8 @@ package com.qifan.movieapp;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ import com.qifan.movieapp.database.MovieEntry;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MovieDetails extends AppCompatActivity {
     private AppExecutors appExecutors;
@@ -35,14 +39,18 @@ public class MovieDetails extends AppCompatActivity {
     private TextView detail_info;
     private TextView title;
     private ImageView imageView;
-    private Button watch;
+    private RecyclerView watch;
     private Switch aSwitch;
     private final String LOG_TAG = MovieDetails.this.getClass().getSimpleName();
     private final MovieDatabase movieDatabase = MovieDatabase.getInstance(MyApplication.getContext());
     private static onSwitchChangeListener onSwitchChangeListener;
     private static OnHttpListener onHttpListener;
-    private static String key;
+    private static ArrayList<String> key;
     private MovieEntry movie_obj;
+    private TrailerListViewAdapter TrailerAdapter;
+    private LinearLayoutManager reviewListLayoutManager;
+    private Parcelable mState;
+    private String REVIEW_LIST_STATE="list_state";
 
 
     @Override
@@ -52,6 +60,7 @@ public class MovieDetails extends AppCompatActivity {
 
         initView();
         mContext = MovieDetails.this;
+        setOnHttpListener();
 
         if (getIntent() != null) {
             int position = getIntent().getIntExtra("Entry_Position", 0);
@@ -62,7 +71,7 @@ public class MovieDetails extends AppCompatActivity {
                  movie_obj = HttpUtil.list.get(position);
             }
             setUpView(movie_obj);
-            setOnHttpListener();
+
             getYoutubeURL(movie_obj);
 
         } else {
@@ -81,11 +90,15 @@ public class MovieDetails extends AppCompatActivity {
         aSwitch = findViewById(R.id.switch1);
         watch = findViewById(R.id.watch_trailer);
         recyclerView = findViewById(R.id.reviews_list);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        reviewListLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(reviewListLayoutManager);
         recyclerView.setFocusable(false);
         reviewListAdapter = new ReviewListAdapter(this);
         recyclerView.setAdapter(reviewListAdapter);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext);
+        watch.setLayoutManager(linearLayoutManager1);
+        TrailerAdapter=new TrailerListViewAdapter(this);
+        watch.setAdapter(TrailerAdapter);
     }
 
     public void setUpView(final MovieEntry movie_obj) {
@@ -103,15 +116,8 @@ public class MovieDetails extends AppCompatActivity {
         aSwitch.setChecked(movie_obj.getFavorite());
         onSwitchChange_MovieDetail(movie_obj);
         getReviewURL(movie_obj);
-        watch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (key != null) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=" + key));
-                    startActivity(browserIntent);
-                }
-            }
-        });
+
+
     }
 
 
@@ -176,8 +182,20 @@ public class MovieDetails extends AppCompatActivity {
             @Override
             public void onParseFinish(String WhichList) {
                 if (WhichList == QUEUE_VIDEO) {
-                    key = HttpUtil.VideokeyList.get(0);
-                    LogUtil.d(LOG_TAG, "Youtube Key: " + key);
+                    int size=HttpUtil.VideokeyList.size();
+                    key=new ArrayList<>();
+                    while(size!=0){
+                        key.add(HttpUtil.VideokeyList.get(size-1));
+                        size--;
+                    }
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            TrailerAdapter.setData(key);
+
+                        }
+                    });
+
                 } else if (WhichList == QUEUE_REVIEWS) {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -230,5 +248,27 @@ public class MovieDetails extends AppCompatActivity {
         return paserVideoKey;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mState=reviewListLayoutManager.onSaveInstanceState();
+        outState.putParcelable(REVIEW_LIST_STATE,mState);
 
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState!=null){
+            mState=savedInstanceState.getParcelable(REVIEW_LIST_STATE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mState!=null){
+            reviewListLayoutManager.onRestoreInstanceState(mState);
+        }
+    }
 }

@@ -13,7 +13,6 @@ import android.widget.GridView;
 
 import com.qifan.movieapp.AppExecutors;
 import com.qifan.movieapp.MainActivity;
-import com.qifan.movieapp.MainViewModel;
 import com.qifan.movieapp.MovieAdapter;
 import com.qifan.movieapp.MovieDetails;
 import com.qifan.movieapp.OnHttpListener;
@@ -77,7 +76,6 @@ public class MainFragment extends Fragment {
         httpRequest(url);
 
         LogUtil.d(LOG_TAG, "Create");
-        LogUtil.d("LIFECYCLE", "ON CREATE");
         onSwitchChange();
         return rootView;
 

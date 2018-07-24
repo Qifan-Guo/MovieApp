@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,15 +59,33 @@ public class FavoriteMovieView extends Fragment {
         GridView gridView=view.findViewById(R.id.gridView_favorite);
 
         gridView.setAdapter(favoriteMovieAdapter);
+        Log.d(LOG_TAG,"ON Create");
 
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(LOG_TAG,"ON PAUSE");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(LOG_TAG,"ON RESUME");
+        }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(LOG_TAG,"ON DESTROY");
+    }
 
     public void setUpViewModel() {
-        final MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        final MainViewModel viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         final LiveData<List<MovieEntry>> movieList = viewModel.getmTasks();
-        movieList.observe(this.getActivity(), new Observer<List<MovieEntry>>() {
+        movieList.observe(getActivity(), new Observer<List<MovieEntry>>() {
             @Override
             public void onChanged(@Nullable List<MovieEntry> movieEntries) {
                 // movieList.removeObserver(this);

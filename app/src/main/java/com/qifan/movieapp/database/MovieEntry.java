@@ -3,10 +3,16 @@ package com.qifan.movieapp.database;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import java.lang.reflect.Array;
+
 @Entity(tableName = "movie")
-public class MovieEntry {
+public class MovieEntry{
+
+
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
@@ -151,5 +157,59 @@ public class MovieEntry {
         return
                 "Popularity: " + String.format("%.0f", double_popularity);
     }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+////    private int id;
+////    private String title;
+////    private String posterURL;
+////    private String topRate;
+////    private String popularity;
+////    private String language;
+////    private Boolean favorite;
+////    private String releaseDate;
+////    private String overview;
+////    private String sortBy;
+////    private int movieID;
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//            dest.writeInt(id);
+//            dest.writeString(title);
+//            dest.writeString(posterURL);
+//            dest.writeString(topRate);
+//            dest.writeString(popularity);
+//            dest.writeString(language);
+//            dest.writeByte((byte) (favorite ? 1 : 0));
+//            dest.writeString(releaseDate);
+//            dest.writeString(overview);
+//            dest.writeString(sortBy);
+//            dest.writeInt(movieID);
+//    }
+//
+//    public static final Parcelable.Creator<MovieEntry> CREATOR
+//            = new Parcelable.Creator<MovieEntry>() {
+//        public MovieEntry createFromParcel(Parcel in) {
+//            return new MovieEntry(in);
+//        }
+//
+//        public MovieEntry[] newArray(int size) {
+//            return new MovieEntry[size];
+//        }
+//    };
+//    private MovieEntry(Parcel in) {
+//        id = in.readInt();
+//        title=in.readString();
+//        posterURL=in.readString();
+//        topRate=in.readString();
+//        popularity=in.readString();
+//        language=in.readString();
+//        releaseDate=in.readString();
+//        overview=in.readString();
+//        sortBy=in.readString();
+//        movieID=in.readInt();
+//        favorite = in.readByte() != 0;
+//
+//    }
 
 }

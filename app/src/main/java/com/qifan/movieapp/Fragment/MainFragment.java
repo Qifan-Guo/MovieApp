@@ -3,6 +3,7 @@ package com.qifan.movieapp.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.qifan.movieapp.onSwitchChangeListener;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,6 +46,11 @@ public class MainFragment extends Fragment {
     private MovieAdapter movieAdapter;
     private OnHttpListener onHttpListener;
     private final String QUEUE_MAIN="main";
+    private Parcelable mState;
+    private String REVIEW_LIST_STATE="list_state";
+    private  Bundle state;
+    private String grid_position="grid_position";
+    int mCurrentPosition;
 
 
     public MainFragment() {
@@ -63,6 +70,7 @@ public class MainFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_fragment, container, false);
         //get Context from MainActivity
         context = getContext();
+        state=savedInstanceState;
         gridView = rootView.findViewById(R.id.gridView);
         appExecutors = AppExecutors.getInstance();
         //get Saved Instance from MainActivity Menu Selection
@@ -77,6 +85,8 @@ public class MainFragment extends Fragment {
 
         LogUtil.d(LOG_TAG, "Create");
         onSwitchChange();
+        if(savedInstanceState!=null){mCurrentPosition=savedInstanceState.getInt(grid_position);}
+
         return rootView;
 
 
@@ -86,8 +96,15 @@ public class MainFragment extends Fragment {
     public void SetUpView() {
         movieAdapter = new MovieAdapter(context);
         gridView.setAdapter(movieAdapter);
+        gridView.smoothScrollToPosition(mCurrentPosition+4);
         }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mCurrentPosition=gridView.getFirstVisiblePosition();
+        outState.putInt(grid_position,mCurrentPosition);
+    }
 
     public void httpRequest(URL url1) {
         final URL url = url1;

@@ -7,6 +7,8 @@
 
 Basic Description of this project:
 
+Familiarize myself with API Calls, Communication between Fragments, Multithreading/ Concurrency, Persist Data and Android Architecture Component (Room, LiveData, ViewModel)
+
 Making Httprequest to https://www.themoviedb.org/documentation/api to populate the app. (Gson,okhttp,Picasso)
 Use Android Architecture Component. (Room, LiveData, ViewModel)
   - Resist Configuration Change such as Screen Rotation
